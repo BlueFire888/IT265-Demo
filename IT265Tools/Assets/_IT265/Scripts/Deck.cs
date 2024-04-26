@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class Deck : MonoBehaviour
@@ -13,6 +14,7 @@ public class Deck : MonoBehaviour
     [Header("Deck UI")] [SerializeField] private TMPro.TextMeshProUGUI buttonText;
     [Header("Card UI")] [SerializeField] private GameObject cardContainer;
     [SerializeField] private TMPro.TextMeshProUGUI title, cardType, body;
+    [SerializeField] private UnityEvent<Card> onDraw;
     private void Awake()
     {
         Debug.Log($"Shuffling {name}");
@@ -43,6 +45,7 @@ public class Deck : MonoBehaviour
             {
                 cards.Add(card);
             }
+            onDraw?.Invoke(card);
             buttonText.text = $"Deck Size {cards.Count}";
             ShowCard(card);
         }
